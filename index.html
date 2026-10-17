@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Duin — Sunum</title>
+    <meta
+      name="description"
+      content="Duin · OKX Dual Investment Risk Gate — sunum"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+
+        --font-sans: "Onest", "Segoe UI", sans-serif;
+        --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+
+        --hue-brand: 252;
+        --color-canvas: oklch(98.5% 0.006 var(--hue-brand));
+        --color-surface-primary: oklch(100% 0 0);
+        --color-surface-secondary: oklch(96.5% 0.012 var(--hue-brand));
+        --color-text-primary: oklch(20% 0.026 var(--hue-brand));
+        --color-text-secondary: oklch(43% 0.025 var(--hue-brand));
+        --color-text-tertiary: oklch(52% 0.02 var(--hue-brand));
+        --color-text-inverse: oklch(98% 0.006 var(--hue-brand));
+        --color-border: oklch(82% 0.02 var(--hue-brand));
+        --color-border-strong: oklch(63% 0.04 var(--hue-brand));
+        --color-action: oklch(45% 0.19 var(--hue-brand));
+        --color-reject: oklch(44% 0.16 28);
+
+        --space-1: 0.5rem;
+        --space-2: 1rem;
+        --space-3: 1.5rem;
+        --space-4: 2rem;
+        --space-5: 2.5rem;
+        --space-6: 3rem;
+        --space-8: 4rem;
+
+        --radius-chip: 0.375rem;
+        --radius-container: 1.25rem;
+
+        --stroke-thin: 0.0625rem;
+        --tracking-display: -0.02em;
+        --tracking-label: 0.08em;
+
+        --motion-state: 360ms;
+        --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        :root {
+          --motion-state: 0ms;
+        }
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: oklch(30% 0.02 var(--hue-brand));
+        color: var(--color-text-primary);
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .stage {
+        position: fixed;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .deck {
+        position: relative;
+        width: 1280px;
+        height: 720px;
+        transform-origin: center center;
+      }
+
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        background: var(--color-canvas);
+        padding: var(--space-6) var(--space-8) var(--space-5);
+        border-radius: var(--radius-container);
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(0.6rem) scale(0.996);
+        transition:
+          opacity var(--motion-state) var(--motion-ease-out),
+          transform var(--motion-state) var(--motion-ease-out),
+          visibility 0s linear var(--motion-state);
+      }
+
+      .slide[data-active="true"] {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        transition:
+          opacity var(--motion-state) var(--motion-ease-out),
+          transform var(--motion-state) var(--motion-ease-out);
+      }
+
+      .slide-rail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-6);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+      }
+
+      .brand img {
+        height: 2.25rem;
+        width: auto;
+        display: block;
+      }
+
+      .brand .brand-divider {
+        width: var(--stroke-thin);
+        height: 1.75rem;
+        background: var(--color-border);
+      }
+
+      .brand .brand-context {
+        font-size: 0.8125rem;
+        font-weight: 600;
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        color: var(--color-text-secondary);
+      }
+
+      .eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        color: var(--color-action);
+      }
+
+      .slide-index {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        color: var(--color-text-tertiary);
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      /* ---------- Slide 1: cover ---------- */
+      .cover {
+        justify-content: space-between;
+      }
+
+      .cover-main {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: var(--space-8);
+        align-items: center;
+        flex: 1;
+      }
+
+      .cover-kicker {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        color: var(--color-text-secondary);
+        margin-bottom: var(--space-3);
+      }
+
+      .cover-title {
+        font-size: 5.5rem;
+        line-height: 0.98;
+        letter-spacing: var(--tracking-display);
+        font-weight: 700;
+      }
+
+      .cover-subtitle {
+        margin-top: var(--space-2);
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+      }
+
+      .cover-slogan {
+        margin-top: var(--space-5);
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--color-action);
+        letter-spacing: var(--tracking-display);
+      }
+
+      .cover-lede {
+        margin-top: var(--space-4);
+        max-width: 30rem;
+        font-size: 1.0625rem;
+        line-height: 1.5;
+        color: var(--color-text-secondary);
+      }
+
+      .cover-visual {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        border: var(--stroke-thin) solid var(--color-border);
+        border-radius: var(--radius-container);
+        background: var(--color-surface-primary);
+      }
+
+      .cover-visual img {
+        width: 62%;
+        height: auto;
+        display: block;
+      }
+
+      .cover-meta {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--space-4);
+        padding-top: var(--space-4);
+        border-top: var(--stroke-thin) solid var(--color-border);
+      }
+
+      .meta-list {
+        display: flex;
+        gap: var(--space-6);
+      }
+
+      .meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .meta-label {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        color: var(--color-text-tertiary);
+      }
+
+      .meta-value {
+        font-size: 0.9375rem;
+        font-weight: 500;
+      }
+
+      .meta-value.mono {
+        font-family: var(--font-mono);
+        font-size: 0.875rem;
+        font-weight: 400;
+      }
+
+      /* ---------- Slide 2: problem ---------- */
+      .slide-head {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        margin-bottom: var(--space-5);
+      }
+
+      .slide-title {
+        font-size: 3rem;
+        line-height: 1.02;
+        letter-spacing: var(--tracking-display);
+        font-weight: 700;
+      }
+
+      .slide-lede {
+        max-width: 46rem;
+        font-size: 1.125rem;
+        line-height: 1.5;
+        color: var(--color-text-secondary);
+      }
+
+      .problem-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-4);
+        align-items: stretch;
+        flex: 1;
+        min-height: 0;
+      }
+
+      .panel {
+        border: var(--stroke-thin) solid var(--color-border);
+        border-radius: var(--radius-container);
+        background: var(--color-surface-primary);
+        padding: var(--space-4);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+      }
+
+      .panel-label {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        color: var(--color-text-tertiary);
+      }
+
+      .panel-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .trap-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-3);
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .trap-list li {
+        display: grid;
+        grid-template-columns: 1.5rem 1fr;
+        gap: var(--space-2);
+        font-size: 1rem;
+        line-height: 1.45;
+        color: var(--color-text-secondary);
+      }
+
+      .trap-list .marker {
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        color: var(--color-reject);
+        padding-top: 0.15rem;
+      }
+
+      .trap-list strong {
+        color: var(--color-text-primary);
+        font-weight: 600;
+      }
+
+      .evidence {
+        border-left: 0.1875rem solid var(--color-reject);
+        padding-left: var(--space-3);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+      }
+
+      .evidence-head {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-2);
+        flex-wrap: wrap;
+      }
+
+      .evidence-title {
+        font-size: 1.0625rem;
+        font-weight: 600;
+      }
+
+      .evidence-date {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--color-text-tertiary);
+      }
+
+      .evidence p {
+        font-size: 0.9375rem;
+        line-height: 1.5;
+        color: var(--color-text-secondary);
+      }
+
+      .metrics {
+        display: flex;
+        gap: var(--space-3);
+        margin-top: auto;
+        padding-top: var(--space-3);
+        border-top: var(--stroke-thin) solid var(--color-border);
+      }
+
+      .metric {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .metric-value {
+        font-family: var(--font-mono);
+        font-size: 1.125rem;
+        font-weight: 500;
+        color: var(--color-text-primary);
+      }
+
+      .metric-label {
+        font-size: 0.75rem;
+        color: var(--color-text-tertiary);
+      }
+
+      .source {
+        margin-top: var(--space-3);
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        color: var(--color-text-tertiary);
+      }
+
+      .user-line {
+        margin-top: var(--space-4);
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-2);
+        font-size: 0.9375rem;
+        line-height: 1.5;
+        color: var(--color-text-secondary);
+      }
+
+      .user-line .tag {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        letter-spacing: var(--tracking-label);
+        text-transform: uppercase;
+        color: var(--color-action);
+        padding-top: 0.15rem;
+        white-space: nowrap;
+      }
+
+      .user-line strong {
+        color: var(--color-text-primary);
+        font-weight: 600;
+      }
+
+      /* ---------- Slide 8: demo video ---------- */
+      .demo-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: var(--space-4);
+        margin-bottom: var(--space-3);
+      }
+
+      .demo-head-text {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-1);
+      }
+
+      .demo-steps {
+        display: flex;
+        gap: var(--space-3);
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        color: var(--color-text-tertiary);
+      }
+
+      .video-frame {
+        position: relative;
+        flex: 1;
+        min-height: 0;
+        border: var(--stroke-thin) solid var(--color-border-strong);
+        border-radius: var(--radius-container);
+        background: oklch(16% 0.02 var(--hue-brand));
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .video-frame video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        background: transparent;
+      }
+
+      .demo-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+        margin-top: var(--space-3);
+      }
+
+      .demo-caption {
+        font-family: var(--font-mono);
+        font-size: 0.6875rem;
+        color: var(--color-text-tertiary);
+      }
+
+      .fullscreen-button {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-1);
+        font-family: var(--font-sans);
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--color-text-inverse);
+        background: var(--color-action);
+        border: 0;
+        border-radius: var(--radius-chip);
+        min-height: 2.75rem;
+        padding-inline: var(--space-3);
+        cursor: pointer;
+      }
+
+      .fullscreen-button:hover {
+        background: var(--color-text-primary);
+      }
+
+      .fullscreen-button:focus-visible {
+        outline: 0.1875rem solid var(--color-border-strong);
+        outline-offset: 0.125rem;
+      }
+
+      /* ---------- chrome ---------- */
+      .controls {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.8125rem;
+        color: oklch(92% 0.01 var(--hue-brand));
+      }
+
+      .controls button {
+        font: inherit;
+        color: inherit;
+        background: oklch(38% 0.03 var(--hue-brand));
+        border: 1px solid oklch(60% 0.03 var(--hue-brand));
+        border-radius: var(--radius-chip);
+        min-width: 2.75rem;
+        min-height: 2.75rem;
+        cursor: pointer;
+      }
+
+      .controls button:hover {
+        background: oklch(45% 0.05 var(--hue-brand));
+      }
+
+      .controls button:focus-visible {
+        outline: 0.1875rem solid oklch(80% 0.1 var(--hue-brand));
+        outline-offset: 0.125rem;
+      }
+
+      @media print {
+        html,
+        body {
+          background: #fff;
+        }
+        .controls {
+          display: none;
+        }
+        .stage {
+          position: static;
+        }
+        .deck {
+          transform: none !important;
+        }
+        .slide {
+          position: static;
+          opacity: 1 !important;
+          visibility: visible !important;
+          transform: none !important;
+          page-break-after: always;
+          border-radius: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="deck" id="deck">
+        <!-- ================= Slide 1 — Kapak ================= -->
+        <section class="slide cover" data-active="true" aria-label="Kapak">
+          <div class="slide-rail">
+            <div class="brand">
+              <img src="brand/duin-symbol.png" alt="" />
+              <span class="brand-divider" aria-hidden="true"></span>
+              <span class="brand-context">OKX Dual Investment Risk Gate</span>
+            </div>
+            <span class="slide-index">01 / 08</span>
+          </div>
+
+          <div class="cover-main">
+            <div>
+              <p class="cover-kicker">Agentic Ankara · Ekim 2026</p>
+              <h1 class="cover-title">Duin</h1>
+              <p class="cover-subtitle">OKX Dual Investment Risk Gate</p>
+              <p class="cover-slogan">Getirinin ötesini gör.</p>
+              <p class="cover-lede">
+                Canlı OKX verisiyle Dual Investment teklifinin dönüşüm riskini
+                işlemden önce kontrol eden deterministik risk kapısı. Karar
+                verir, gerekçesini gösterir, onay olmadan para hareketi
+                başlatmaz.
+              </p>
+            </div>
+            <div class="cover-visual">
+              <img src="brand/duin-symbol.png" alt="Duin" />
+            </div>
+          </div>
+
+          <div class="cover-meta">
+            <div class="meta-list">
+              <div class="meta-item">
+                <span class="meta-label">Canlı demo</span>
+                <span class="meta-value mono"
+                  >ltd-inspiration-present-hepatitis.trycloudflare.com</span
+                >
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Kaynak</span>
+                <span class="meta-value">Gerçek canlı OKX TR verisi</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Sınır</span>
+                <span class="meta-value">Read-only · Onay olmadan işlem yok</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= Slide 2 — Problem ================= -->
+        <section class="slide" aria-label="Problem">
+          <div class="slide-rail">
+            <div class="brand">
+              <img src="brand/duin-symbol.png" alt="" />
+              <span class="brand-divider" aria-hidden="true"></span>
+              <span class="brand-context">Duin</span>
+            </div>
+            <span class="slide-index">02 / 08</span>
+          </div>
+
+          <div class="slide-head">
+            <p class="eyebrow">Problem</p>
+            <h2 class="slide-title">Yüksek APR, gizli risk</h2>
+            <p class="slide-lede">
+              Dual Investment cazip bir prim vaat eder; ama alınan prim,
+              gözlenen option piyasası ve fırsat maliyeti karşısında yeterli mi?
+              Teklif ekranı bunu söylemez.
+            </p>
+          </div>
+
+          <div class="problem-body">
+            <div class="panel">
+              <span class="panel-label">Tuzak</span>
+              <h3 class="panel-title">Prim, riski görünmez kılar</h3>
+              <ul class="trap-list">
+                <li>
+                  <span class="marker">→</span>
+                  <span
+                    ><strong>Başlık APR, tek bilgi.</strong> Dönüşüm olursa
+                    elde kalan varlığın maliyeti ekranda yok.</span
+                  >
+                </li>
+                <li>
+                  <span class="marker">→</span>
+                  <span
+                    ><strong>Karşılaştırma yok.</strong> Aynı strike ve vadeye
+                    yakın işlem yapılabilir option fiyatı gösterilmiyor.</span
+                  >
+                </li>
+                <li>
+                  <span class="marker">→</span>
+                  <span
+                    ><strong>Geri çekilme riski gizli.</strong> “Yüksek getiri”
+                    görünen ürünlerde asıl risk likidite ve geri ödemedir.</span
+                  >
+                </li>
+              </ul>
+            </div>
+
+            <div class="panel">
+              <span class="panel-label">Türkiye · Eylül 2026</span>
+              <div class="evidence">
+                <div class="evidence-head">
+                  <span class="evidence-title"
+                    >Tera Portföy para piyasası fonu temerrüdü</span
+                  >
+                  <span class="evidence-date">KAP · 16.09.2026</span>
+                </div>
+                <p>
+                  TP2 ve THF fonlarında katılma payı iade ödemelerinde temerrüt
+                  oluştu. Ödeme süresi 10 iş gününe çıkarıldı, birim pay
+                  değerlemesi aylığa çekildi.
+                </p>
+              </div>
+
+              <div class="metrics">
+                <div class="metric">
+                  <span class="metric-value">102.000+</span>
+                  <span class="metric-label">etkilenen fonda yatırımcı</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-value">243,6 mlr ₺</span>
+                  <span class="metric-label">ilgili fon büyüklüğü</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-value">10 iş günü</span>
+                  <span class="metric-label">yeni ödeme süresi</span>
+                </div>
+              </div>
+
+              <p class="source">
+                Kaynak: Tera Portföy KAP bildirimi (16.09.2026), kamuya açık
+                haber derlemeleri.
+              </p>
+            </div>
+          </div>
+
+          <p class="user-line">
+            <span class="tag">Hedef kullanıcı</span>
+            <span
+              >OKX TR'de USDT tutan, BTC'yi belirli bir fiyattan almaya razı ama
+              <strong>dönüşüm riskinin aldığı prime değip değmediğini</strong>
+              hızlıca anlamak isteyen kişi.</span
+            >
+          </p>
+        </section>
+
+        <!-- ================= Slide 8 — Canlı demo ================= -->
+        <section class="slide" aria-label="Canlı demo videosu">
+          <div class="slide-rail">
+            <div class="brand">
+              <img src="brand/duin-symbol.png" alt="" />
+              <span class="brand-divider" aria-hidden="true"></span>
+              <span class="brand-context">Duin</span>
+            </div>
+            <span class="slide-index">08 / 08</span>
+          </div>
+
+          <div class="demo-head">
+            <div class="demo-head-text">
+              <p class="eyebrow">Canlı demo</p>
+              <h2 class="slide-title" style="font-size: 2.25rem">
+                Ürün, gerçek veriyle çalışıyor
+              </h2>
+            </div>
+            <div class="demo-steps">
+              <span>Teklif → Proxy → Karar</span>
+              <span>·</span>
+              <span>x402 ödeme → Rapor</span>
+            </div>
+          </div>
+
+          <div class="video-frame" id="videoFrame">
+            <video
+              id="demoVideo"
+              src="duin-demo.mp4"
+              controls
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+          </div>
+
+          <div class="demo-foot">
+            <span class="demo-caption"
+              >Ekran kaydı · ses kaldırıldı · 00:50</span
+            >
+            <button
+              type="button"
+              class="fullscreen-button"
+              id="fullscreen"
+              aria-label="Videoyu tam ekran oynat"
+            >
+              Tam ekran
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="controls" role="group" aria-label="Slayt gezinme">
+      <button type="button" id="prev" aria-label="Önceki slayt">←</button>
+      <span id="counter">01 / 03</span>
+      <button type="button" id="next" aria-label="Sonraki slayt">→</button>
+    </div>
+
+    <script>
+      (function () {
+        var deck = document.getElementById("deck");
+        var slides = Array.prototype.slice.call(
+          deck.querySelectorAll(".slide")
+        );
+        var counter = document.getElementById("counter");
+        var video = document.getElementById("demoVideo");
+        var frame = document.getElementById("videoFrame");
+        var current = 0;
+
+        function pad(n) {
+          return String(n).padStart(2, "0");
+        }
+
+        function render() {
+          slides.forEach(function (slide, index) {
+            var active = index === current;
+            slide.setAttribute("data-active", active ? "true" : "false");
+          });
+
+          counter.textContent = pad(current + 1) + " / " + pad(slides.length);
+
+          var onVideo = slides[current].contains(video);
+          if (onVideo) {
+            video.currentTime = 0;
+            var playAttempt = video.play();
+            if (playAttempt && playAttempt.catch) {
+              playAttempt.catch(function () {});
+            }
+          } else if (!video.paused) {
+            video.pause();
+          }
+
+          if (location.hash !== "#" + (current + 1)) {
+            history.replaceState(null, "", "#" + (current + 1));
+          }
+        }
+
+        function go(delta) {
+          var next = current + delta;
+          if (next < 0 || next > slides.length - 1) return;
+          current = next;
+          render();
+        }
+
+        function fit() {
+          var scale = Math.min(
+            window.innerWidth / 1280,
+            window.innerHeight / 720
+          );
+          deck.style.transform = "scale(" + scale + ")";
+        }
+
+        document.getElementById("prev").addEventListener("click", function () {
+          go(-1);
+        });
+        document.getElementById("next").addEventListener("click", function () {
+          go(1);
+        });
+
+        document
+          .getElementById("fullscreen")
+          .addEventListener("click", function () {
+            var target = frame;
+            if (target.requestFullscreen) {
+              target.requestFullscreen();
+            } else if (video.webkitEnterFullscreen) {
+              video.webkitEnterFullscreen();
+            }
+          });
+
+        window.addEventListener("keydown", function (event) {
+          if (event.key === "ArrowRight" || event.key === "PageDown") {
+            event.preventDefault();
+            go(1);
+          } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+            event.preventDefault();
+            go(-1);
+          } else if (event.key === "Home") {
+            current = 0;
+            render();
+          } else if (event.key === "End") {
+            current = slides.length - 1;
+            render();
+          }
+        });
+
+        window.addEventListener("resize", fit);
+
+        var initial = parseInt((location.hash || "").replace("#", ""), 10);
+        if (!isNaN(initial) && initial >= 1 && initial <= slides.length) {
+          current = initial - 1;
+        }
+
+        fit();
+        render();
+      })();
+    </script>
+  </body>
+</html>
