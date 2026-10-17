@@ -33,6 +33,7 @@
         --border: oklch(84% 0.018 var(--hue));
         --border-2: oklch(62% 0.04 var(--hue));
         --action: oklch(45% 0.19 var(--hue));
+        --action-on-dark: oklch(78% 0.13 var(--hue));
         --accept: oklch(42% 0.12 151);
         --accept-on-dark: oklch(82% 0.15 151);
         --ask: oklch(45% 0.13 75);
@@ -276,6 +277,17 @@
         color: var(--ink-3);
       }
 
+      .ledger.fill {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+
+      .ledger.fill .lrow {
+        flex: 1;
+        align-items: center;
+      }
+
       /* dark plane */
       .plane {
         background: var(--strong);
@@ -349,6 +361,7 @@
         background: var(--strong);
         border-radius: var(--radius);
         overflow: hidden;
+        flex: 1;
       }
 
       .dseg {
@@ -356,6 +369,7 @@
         border-left: 1px solid var(--on-dark-line);
         display: flex;
         flex-direction: column;
+        justify-content: center;
         gap: 0.6rem;
       }
 
@@ -413,6 +427,8 @@
       .market {
         display: flex;
         flex-direction: column;
+        justify-content: space-around;
+        flex: 1;
         gap: var(--s3);
       }
 
@@ -430,7 +446,7 @@
       }
 
       .bar-track {
-        height: 3rem;
+        height: 3.75rem;
         background: var(--surface-2);
         border: 1px solid var(--border);
         border-radius: var(--chip);
@@ -540,7 +556,10 @@
 
       .cover-meta {
         display: flex;
-        gap: var(--s5);
+        flex-wrap: wrap;
+        gap: var(--s4);
+        row-gap: var(--s2);
+        max-width: 35rem;
         padding-top: var(--s3);
         border-top: 1px solid var(--border-2);
       }
@@ -639,12 +658,59 @@
         display: block;
       }
 
-      .video-foot {
+      .content.demo {
+        display: grid;
+        grid-template-columns: 1.95fr 1fr;
+        gap: var(--s4);
+      }
+
+      .demo-side {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: column;
         gap: var(--s3);
-        margin-top: var(--s3);
+        min-height: 0;
+      }
+
+      .steps {
+        counter-reset: step;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .steps li {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.7rem;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        color: var(--on-dark-2);
+        counter-increment: step;
+      }
+
+      .steps li::before {
+        content: counter(step, decimal-leading-zero);
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        line-height: 1.5;
+        color: var(--action-on-dark);
+      }
+
+      .demo-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .demo-actions .btn {
+        width: 100%;
+      }
+
+      .demo-actions .note {
+        text-align: center;
       }
 
       .btn {
@@ -801,7 +867,7 @@
           </div>
 
           <div class="content cols" style="grid-template-columns: 1fr 0.92fr">
-            <div class="ledger">
+            <div class="ledger fill">
               <div class="lhead"><span>Neden tuzak</span><span>3 kalem</span></div>
               <div class="lrow">
                 <span class="k"
@@ -870,7 +936,7 @@
             </p>
           </div>
 
-          <div class="content" style="justify-content: center; gap: var(--s4)">
+          <div class="content" style="gap: var(--s4)">
             <div class="decision-plane">
               <div class="dseg accept">
                 <span class="d-name">ACCEPT</span>
@@ -927,7 +993,7 @@
           </div>
 
           <div class="content">
-            <div class="ledger">
+            <div class="ledger fill">
               <div class="lhead">
                 <span>Katman</span><span>Durum</span>
               </div>
@@ -1009,7 +1075,7 @@
               </div>
             </div>
 
-            <div class="ledger">
+            <div class="ledger fill">
               <div class="lhead"><span>Model varsayımı</span><span>Not</span></div>
               <div class="lrow">
                 <span class="k">Yetişkinlerin kripto işlem oranı</span
@@ -1052,7 +1118,7 @@
           </div>
 
           <div class="content cols" style="grid-template-columns: 1fr 1fr">
-            <div class="ledger">
+            <div class="ledger fill">
               <div class="lhead">
                 <span>Gelir kanalı</span><span>Açıklama</span>
               </div>
@@ -1070,7 +1136,7 @@
               </div>
             </div>
 
-            <div class="ledger">
+            <div class="ledger fill">
               <div class="lhead">
                 <span>Birim ekonomi (model)</span><span>Değer</span>
               </div>
@@ -1135,7 +1201,7 @@
               </div>
             </div>
 
-            <div class="ledger">
+            <div class="ledger fill">
               <div class="lhead"><span>Neden şimdi</span><span>Durum</span></div>
               <div class="lrow">
                 <span class="k"
@@ -1175,25 +1241,40 @@
             </h2>
           </div>
 
-          <div class="video-frame" id="videoFrame">
-            <video
-              id="demoVideo"
-              src="duin-demo.mp4"
-              controls
-              muted
-              loop
-              playsinline
-              preload="metadata"
-            ></video>
-          </div>
+          <div class="content demo">
+            <div class="video-frame" id="videoFrame">
+              <video
+                id="demoVideo"
+                src="duin-demo.mp4"
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
 
-          <div class="video-foot">
-            <span class="note"
-              >Ekran kaydı · ses kaldırıldı · 00:50 · gerçek OKX TR verisi</span
-            >
-            <button type="button" class="btn" id="fullscreen">
-              Tam ekran
-            </button>
+            <div class="demo-side">
+              <div class="plane" style="flex: 1">
+                <span class="plane-label">Demo akışı</span>
+                <ol class="steps">
+                  <li>Canlı DCD teklifini OKX TR'den çeker.</li>
+                  <li>Aynı strike ve vadedeki option bandını hesaplar.</li>
+                  <li>Politikayı uygular: ACCEPT / ASK / REJECT.</li>
+                  <li>İkinci ajan raporu x402 ile satın alır.</li>
+                  <li>Makbuz zincirde doğrulanınca rapor teslim edilir.</li>
+                </ol>
+                <p class="plane-source">
+                  Avalanche Fuji TESTNET · saklama yok, withdrawal izni yok.
+                </p>
+              </div>
+              <div class="demo-actions">
+                <button type="button" class="btn" id="fullscreen">
+                  Tam ekran
+                </button>
+                <span class="note">Ekran kaydı · ses kaldırıldı · 00:50</span>
+              </div>
+            </div>
           </div>
         </section>
       </div>
