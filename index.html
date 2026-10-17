@@ -18,28 +18,30 @@
       :root {
         color-scheme: light;
 
-        --font-sans: "Onest", "Segoe UI", sans-serif;
-        --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+        --sans: "Onest", "Segoe UI", sans-serif;
+        --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
 
         --hue: 252;
-        --canvas: oklch(98.5% 0.006 var(--hue));
+        --canvas: oklch(99% 0.004 var(--hue));
         --surface: oklch(100% 0 0);
-        --surface-2: oklch(96.5% 0.012 var(--hue));
-        --strong: oklch(22% 0.035 var(--hue));
-        --ink: oklch(20% 0.026 var(--hue));
-        --ink-2: oklch(43% 0.025 var(--hue));
-        --ink-3: oklch(55% 0.02 var(--hue));
-        --border: oklch(82% 0.02 var(--hue));
-        --border-2: oklch(63% 0.04 var(--hue));
+        --surface-2: oklch(96.5% 0.01 var(--hue));
+        --strong: oklch(21% 0.032 var(--hue));
+        --strong-2: oklch(27% 0.032 var(--hue));
+        --ink: oklch(19% 0.026 var(--hue));
+        --ink-2: oklch(44% 0.025 var(--hue));
+        --ink-3: oklch(56% 0.02 var(--hue));
+        --border: oklch(84% 0.018 var(--hue));
+        --border-2: oklch(62% 0.04 var(--hue));
         --action: oklch(45% 0.19 var(--hue));
-        --action-soft: oklch(94% 0.03 var(--hue));
         --accept: oklch(42% 0.12 151);
-        --accept-soft: oklch(94% 0.045 151);
+        --accept-on-dark: oklch(82% 0.15 151);
         --ask: oklch(45% 0.13 75);
-        --ask-soft: oklch(95% 0.05 85);
+        --ask-on-dark: oklch(85% 0.14 85);
         --reject: oklch(44% 0.16 28);
-        --reject-soft: oklch(94% 0.045 28);
+        --reject-on-dark: oklch(80% 0.13 28);
         --inverse: oklch(98% 0.006 var(--hue));
+        --on-dark-2: oklch(76% 0.02 var(--hue));
+        --on-dark-line: oklch(38% 0.025 var(--hue));
 
         --s1: 0.5rem;
         --s2: 1rem;
@@ -47,10 +49,10 @@
         --s4: 2rem;
         --s5: 2.5rem;
 
-        --radius: 1.25rem;
+        --radius: 1rem;
         --chip: 0.375rem;
 
-        --motion: 380ms;
+        --motion: 420ms;
         --ease: cubic-bezier(0.16, 1, 0.3, 1);
       }
 
@@ -68,9 +70,9 @@
       body {
         margin: 0;
         height: 100%;
-        background: oklch(24% 0.02 var(--hue));
+        background: oklch(20% 0.02 var(--hue));
         color: var(--ink);
-        font-family: var(--font-sans);
+        font-family: var(--sans);
         -webkit-font-smoothing: antialiased;
       }
 
@@ -94,7 +96,7 @@
         inset: 0;
         display: flex;
         flex-direction: column;
-        padding: var(--s5) 3.5rem 1.75rem;
+        padding: 2.5rem 3.5rem 3.25rem;
         background: var(--canvas);
         border-radius: var(--radius);
         overflow: hidden;
@@ -116,57 +118,6 @@
           transform var(--motion) var(--ease);
       }
 
-      .slide::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 0.25rem;
-        background: var(--action);
-      }
-
-      /* rails + typography */
-      .rail {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: var(--s4);
-      }
-
-      .brand {
-        display: flex;
-        align-items: center;
-        gap: var(--s2);
-      }
-
-      .brand img {
-        height: 2rem;
-        width: auto;
-        display: block;
-      }
-
-      .rail-sep {
-        width: 1px;
-        height: 1.5rem;
-        background: var(--border);
-      }
-
-      .rail-context {
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--ink-2);
-      }
-
-      .slide-no {
-        font-family: var(--font-mono);
-        font-size: 0.8125rem;
-        color: var(--ink-3);
-        font-variant-numeric: tabular-nums;
-      }
-
       h1,
       h2,
       h3,
@@ -174,50 +125,364 @@
         margin: 0;
       }
 
-      .eyebrow {
-        font-family: var(--font-mono);
-        font-size: 0.8125rem;
-        font-weight: 600;
+      .num {
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* rail */
+      .rail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: var(--s4);
+      }
+
+      .rail-l {
+        display: flex;
+        align-items: center;
+        gap: var(--s2);
+      }
+
+      .rail img {
+        height: 1.75rem;
+        width: auto;
+        display: block;
+      }
+
+      .rail-sep {
+        width: 1px;
+        height: 1.25rem;
+        background: var(--border-2);
+      }
+
+      .rail-label {
+        font-family: var(--mono);
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-2);
+      }
+
+      .slide-no {
+        font-family: var(--mono);
+        font-size: 0.75rem;
         letter-spacing: 0.08em;
+        color: var(--ink-3);
+      }
+
+      /* head */
+      .head {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+        margin-bottom: var(--s4);
+        max-width: 52rem;
+      }
+
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.6875rem;
+        font-weight: 600;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
         color: var(--action);
       }
 
       .title {
-        font-size: 2.75rem;
-        line-height: 1.02;
-        letter-spacing: -0.02em;
+        font-size: 2.9rem;
+        line-height: 1;
+        letter-spacing: -0.035em;
         font-weight: 800;
       }
 
       .lede {
-        font-size: 1.125rem;
+        font-size: 1.0625rem;
         line-height: 1.5;
         color: var(--ink-2);
-        max-width: 44rem;
+        max-width: 46rem;
       }
 
-      .head {
+      .content {
+        flex: 1;
+        min-height: 0;
         display: flex;
         flex-direction: column;
-        gap: var(--s2);
-        margin-bottom: var(--s4);
+        gap: var(--s3);
       }
 
-      .mono {
-        font-family: var(--font-mono);
-        font-variant-numeric: tabular-nums;
+      .cols {
+        display: grid;
+        gap: var(--s4);
+        align-items: stretch;
+      }
+
+      /* ledger */
+      .ledger {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+        overflow: hidden;
+      }
+
+      .lrow {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: baseline;
+        gap: var(--s3);
+        padding: 0.9rem 1.25rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .lrow:first-child {
+        border-top: 0;
+      }
+
+      .lrow .k {
+        font-size: 1rem;
+        color: var(--ink-2);
+        line-height: 1.4;
+      }
+
+      .lrow .k b {
+        color: var(--ink);
+        font-weight: 650;
+      }
+
+      .lrow .v {
+        font-family: var(--mono);
+        font-size: 0.875rem;
+        color: var(--ink);
+        text-align: right;
+        white-space: nowrap;
+      }
+
+      .lrow .v.acc {
+        color: var(--accept);
+      }
+
+      .lhead {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        padding: 0.6rem 1.25rem;
+        background: var(--surface-2);
+        font-family: var(--mono);
+        font-size: 0.625rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+
+      /* dark plane */
+      .plane {
+        background: var(--strong);
+        color: var(--inverse);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: var(--s3);
+      }
+
+      .plane-label {
+        font-family: var(--mono);
+        font-size: 0.625rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--on-dark-2);
+      }
+
+      .plane-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+      }
+
+      .plane p {
+        font-size: 0.9375rem;
+        line-height: 1.5;
+        color: var(--on-dark-2);
+      }
+
+      .plane p b {
+        color: var(--inverse);
+        font-weight: 650;
+      }
+
+      .plane-stats {
+        display: flex;
+        gap: var(--s4);
+      }
+
+      .pstat {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+
+      .pstat b {
+        font-family: var(--mono);
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .pstat span {
+        font-size: 0.6875rem;
+        color: var(--on-dark-2);
+      }
+
+      .plane-source {
+        margin-top: auto;
+        font-family: var(--mono);
+        font-size: 0.625rem;
+        color: var(--on-dark-2);
+      }
+
+      /* decision plane */
+      .decision-plane {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        background: var(--strong);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .dseg {
+        padding: 1.5rem;
+        border-left: 1px solid var(--on-dark-line);
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+
+      .dseg:first-child {
+        border-left: 0;
+      }
+
+      .dseg .d-name {
+        font-family: var(--mono);
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .dseg .d-desc {
+        font-size: 0.875rem;
+        line-height: 1.45;
+        color: var(--on-dark-2);
+      }
+
+      .dseg.accept .d-name {
+        color: var(--accept-on-dark);
+      }
+      .dseg.ask .d-name {
+        color: var(--ask-on-dark);
+      }
+      .dseg.reject .d-name {
+        color: var(--reject-on-dark);
+      }
+
+      /* flow */
+      .flow {
+        display: flex;
+        align-items: center;
+        gap: var(--s2);
+        flex-wrap: wrap;
+      }
+
+      .fnode {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        padding: 0.45rem 0.75rem;
+        border: 1px solid var(--border-2);
+        border-radius: var(--chip);
+        color: var(--ink-2);
+        background: var(--surface);
+      }
+
+      .farrow {
+        color: var(--action);
+        font-size: 0.9rem;
+      }
+
+      /* market */
+      .market {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s3);
+      }
+
+      .bar {
+        display: grid;
+        grid-template-columns: 3.5rem 1fr 11rem;
+        align-items: center;
+        gap: var(--s3);
+      }
+
+      .bar-tag {
+        font-family: var(--mono);
+        font-size: 0.8125rem;
+        font-weight: 600;
+      }
+
+      .bar-track {
+        height: 3rem;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: var(--chip);
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        height: 100%;
+        background: var(--action);
+      }
+
+      .bar.sam .bar-fill {
+        background: oklch(56% 0.15 var(--hue));
+      }
+      .bar.som .bar-fill {
+        background: oklch(66% 0.12 var(--hue));
+      }
+
+      .bar-v {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .bar-v b {
+        font-family: var(--mono);
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+
+      .bar-v span {
+        font-size: 0.6875rem;
+        color: var(--ink-3);
+        line-height: 1.3;
       }
 
       /* cover */
       .cover {
         padding: 0;
-        display: grid;
-        grid-template-columns: 1.05fr 0.95fr;
       }
 
-      .cover-left {
-        padding: var(--s5) 0 var(--s4) 3.5rem;
+      .cover-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url("duin-robot-poster.webp");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .cover-inner {
+        position: relative;
+        height: 100%;
+        padding: 2.5rem 3.5rem 2.5rem;
         display: flex;
         flex-direction: column;
       }
@@ -228,28 +493,30 @@
         display: block;
       }
 
-      .cover-spacer {
-        flex: 1;
+      .cover-main {
+        margin-top: auto;
+        margin-bottom: auto;
+        max-width: 42rem;
       }
 
       .cover-kicker {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        letter-spacing: 0.08em;
+        font-family: var(--mono);
+        font-size: 0.6875rem;
+        letter-spacing: 0.16em;
         text-transform: uppercase;
-        color: var(--ink-3);
-        margin-bottom: var(--s2);
+        color: var(--action);
+        margin-bottom: var(--s3);
       }
 
       .cover-title {
-        font-size: 4.5rem;
-        line-height: 0.95;
-        letter-spacing: -0.03em;
+        font-size: 5rem;
+        line-height: 0.92;
+        letter-spacing: -0.04em;
         font-weight: 800;
       }
 
       .cover-sub {
-        margin-top: var(--s2);
+        margin-top: 0.75rem;
         font-size: 1.375rem;
         font-weight: 500;
         color: var(--ink-2);
@@ -257,25 +524,25 @@
 
       .cover-slogan {
         margin-top: var(--s3);
-        font-size: 1.75rem;
+        font-size: 1.875rem;
         font-weight: 700;
-        color: var(--action);
         letter-spacing: -0.02em;
+        color: var(--action);
       }
 
       .cover-oneliner {
         margin-top: var(--s3);
         font-size: 1rem;
-        line-height: 1.5;
+        line-height: 1.55;
         color: var(--ink-2);
-        max-width: 30rem;
+        max-width: 34rem;
       }
 
       .cover-meta {
         display: flex;
-        gap: var(--s4);
+        gap: var(--s5);
         padding-top: var(--s3);
-        border-top: 1px solid var(--border);
+        border-top: 1px solid var(--border-2);
       }
 
       .meta-item {
@@ -285,9 +552,9 @@
       }
 
       .meta-label {
-        font-family: var(--font-mono);
+        font-family: var(--mono);
         font-size: 0.625rem;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
         color: var(--ink-3);
       }
@@ -298,321 +565,13 @@
       }
 
       .meta-value.small {
-        font-family: var(--font-mono);
+        font-family: var(--mono);
         font-size: 0.75rem;
         font-weight: 400;
       }
 
-      .cover-right {
-        position: relative;
-        background: var(--strong);
-        overflow: hidden;
-      }
-
-      .cover-right img {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: 50% 20%;
-      }
-
-      /* generic two-column body */
-      .body {
-        flex: 1;
-        min-height: 0;
-        display: grid;
-        gap: var(--s3);
-      }
-
-      .col {
-        display: flex;
-        flex-direction: column;
-        gap: var(--s3);
-      }
-
-      .card {
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        background: var(--surface);
-        padding: var(--s3);
-        display: flex;
-        flex-direction: column;
-        gap: var(--s2);
-      }
-
-      .card-label {
-        font-family: var(--font-mono);
-        font-size: 0.625rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--ink-3);
-      }
-
-      .card-title {
-        font-size: 1.125rem;
-        font-weight: 700;
-      }
-
-      .bullets {
-        display: flex;
-        flex-direction: column;
-        gap: var(--s2);
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
-
-      .bullets li {
-        display: grid;
-        grid-template-columns: 1.25rem 1fr;
-        gap: var(--s2);
-        font-size: 0.9375rem;
-        line-height: 1.45;
-        color: var(--ink-2);
-      }
-
-      .bullets .b {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        color: var(--reject);
-        padding-top: 0.2rem;
-      }
-
-      .bullets strong {
-        color: var(--ink);
-        font-weight: 650;
-      }
-
-      .stat-row {
-        display: flex;
-        gap: var(--s3);
-      }
-
-      .stat {
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-      }
-
-      .stat-value {
-        font-family: var(--font-mono);
-        font-size: 1.25rem;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-      }
-
-      .stat-label {
-        font-size: 0.75rem;
-        color: var(--ink-3);
-      }
-
-      .source {
-        margin-top: auto;
-        font-family: var(--font-mono);
-        font-size: 0.625rem;
-        color: var(--ink-3);
-      }
-
-      /* decision chips */
-      .decision-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--s3);
-      }
-
-      .decision {
-        border-radius: var(--radius);
-        padding: var(--s3);
-        display: flex;
-        flex-direction: column;
-        gap: var(--s2);
-        border: 1px solid var(--border);
-      }
-
-      .decision .d-name {
-        font-family: var(--font-mono);
-        font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-      }
-
-      .decision .d-desc {
-        font-size: 0.875rem;
-        line-height: 1.4;
-        color: var(--ink-2);
-      }
-
-      .decision.accept {
-        background: var(--accept-soft);
-      }
-      .decision.accept .d-name {
-        color: var(--accept);
-      }
-      .decision.ask {
-        background: var(--ask-soft);
-      }
-      .decision.ask .d-name {
-        color: var(--ask);
-      }
-      .decision.reject {
-        background: var(--reject-soft);
-      }
-      .decision.reject .d-name {
-        color: var(--reject);
-      }
-
-      .flow {
-        display: flex;
-        align-items: center;
-        gap: var(--s2);
-        flex-wrap: wrap;
-      }
-
-      .flow-node {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        padding: 0.4rem 0.7rem;
-        border: 1px solid var(--border);
-        border-radius: var(--chip);
-        background: var(--surface);
-        color: var(--ink-2);
-      }
-
-      .flow-arrow {
-        color: var(--ink-3);
-        font-size: 0.875rem;
-      }
-
-      /* market bars */
-      .market {
-        display: flex;
-        flex-direction: column;
-        gap: var(--s3);
-        justify-content: center;
-      }
-
-      .bar-row {
-        display: grid;
-        grid-template-columns: 5rem 1fr 9rem;
-        align-items: center;
-        gap: var(--s2);
-      }
-
-      .bar-tag {
-        font-family: var(--font-mono);
-        font-size: 0.8125rem;
-        font-weight: 600;
-        color: var(--ink);
-      }
-
-      .bar-track {
-        height: 2.75rem;
-        background: var(--surface-2);
-        border-radius: var(--chip);
-        overflow: hidden;
-        position: relative;
-      }
-
-      .bar-fill {
-        height: 100%;
-        background: var(--action);
-        border-radius: var(--chip);
-      }
-
-      .bar-row.sam .bar-fill {
-        background: oklch(58% 0.15 var(--hue));
-      }
-      .bar-row.som .bar-fill {
-        background: oklch(68% 0.12 var(--hue));
-      }
-
-      .bar-value {
-        text-align: right;
-        display: flex;
-        flex-direction: column;
-        gap: 0.1rem;
-      }
-
-      .bar-value b {
-        font-family: var(--font-mono);
-        font-size: 1rem;
-        font-weight: 600;
-        font-variant-numeric: tabular-nums;
-      }
-
-      .bar-value span {
-        font-size: 0.6875rem;
-        color: var(--ink-3);
-      }
-
-      /* table */
-      .table {
-        display: flex;
-        flex-direction: column;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-        background: var(--surface);
-      }
-
-      .trow {
-        display: grid;
-        grid-template-columns: 1.4fr 1fr 1fr;
-        gap: var(--s2);
-        padding: 0.7rem var(--s3);
-        border-top: 1px solid var(--border);
-        font-size: 0.875rem;
-        align-items: center;
-      }
-
-      .trow:first-child {
-        border-top: 0;
-        background: var(--surface-2);
-        font-family: var(--font-mono);
-        font-size: 0.6875rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--ink-3);
-      }
-
-      .trow .num {
-        font-family: var(--font-mono);
-        font-variant-numeric: tabular-nums;
-        text-align: right;
-        font-weight: 500;
-      }
-
-      .stream {
-        display: flex;
-        flex-direction: column;
-        gap: var(--s2);
-      }
-
-      .stream-item {
-        display: grid;
-        grid-template-columns: 1.5rem 1fr;
-        gap: var(--s2);
-        font-size: 0.9375rem;
-        line-height: 1.4;
-        color: var(--ink-2);
-      }
-
-      .stream-item b {
-        color: var(--ink);
-        font-weight: 650;
-      }
-
-      .stream-item .n {
-        font-family: var(--font-mono);
-        font-size: 0.75rem;
-        color: var(--action);
-        padding-top: 0.15rem;
-      }
-
       /* team */
-      .team-grid {
+      .people {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--s3);
@@ -622,29 +581,24 @@
         border: 1px solid var(--border);
         border-radius: var(--radius);
         background: var(--surface);
-        padding: var(--s3);
-        display: flex;
-        flex-direction: column;
-        gap: var(--s2);
-      }
-
-      .person-top {
+        padding: 1.25rem;
         display: flex;
         align-items: center;
-        gap: var(--s2);
+        gap: var(--s3);
       }
 
       .avatar {
-        width: 3rem;
-        height: 3rem;
-        border-radius: 50%;
+        width: 3.25rem;
+        height: 3.25rem;
+        border-radius: 0.75rem;
         background: var(--strong);
         color: var(--inverse);
         display: grid;
         place-items: center;
-        font-weight: 700;
-        font-size: 1.125rem;
-        font-family: var(--font-mono);
+        font-family: var(--mono);
+        font-size: 1.25rem;
+        font-weight: 600;
+        flex: none;
       }
 
       .person-name {
@@ -655,82 +609,23 @@
       .person-role {
         font-size: 0.8125rem;
         color: var(--ink-2);
+        line-height: 1.35;
       }
 
       .person-handle {
-        font-family: var(--font-mono);
-        font-size: 0.8125rem;
+        font-family: var(--mono);
+        font-size: 0.75rem;
         color: var(--action);
       }
 
-      .ask {
-        border: 1px solid var(--border-2);
-        border-radius: var(--radius);
-        background: var(--strong);
-        color: var(--inverse);
-        padding: var(--s3);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--s3);
-      }
-
-      .ask-l {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-
-      .ask-label {
-        font-family: var(--font-mono);
-        font-size: 0.625rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: oklch(78% 0.02 var(--hue));
-      }
-
-      .ask-value {
-        font-size: 1.5rem;
-        font-weight: 700;
-      }
-
-      .ask-r {
-        display: flex;
-        gap: var(--s4);
-      }
-
-      .ask-metric {
-        display: flex;
-        flex-direction: column;
-        gap: 0.15rem;
-      }
-
-      .ask-metric b {
-        font-family: var(--font-mono);
-        font-size: 1rem;
-      }
-
-      .ask-metric span {
-        font-size: 0.6875rem;
-        color: oklch(80% 0.02 var(--hue));
-      }
-
-      /* video slide */
-      .video-head {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: var(--s3);
-        margin-bottom: var(--s2);
-      }
-
+      /* video */
       .video-frame {
         position: relative;
         flex: 1;
         min-height: 0;
         border: 1px solid var(--border-2);
         border-radius: var(--radius);
-        background: oklch(16% 0.02 var(--hue));
+        background: var(--strong);
         overflow: hidden;
         display: flex;
         align-items: center;
@@ -748,34 +643,52 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-top: var(--s2);
+        gap: var(--s3);
+        margin-top: var(--s3);
+      }
+
+      .btn {
+        font-family: var(--sans);
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--inverse);
+        background: var(--action);
+        border: 0;
+        border-radius: var(--chip);
+        min-height: 2.75rem;
+        padding-inline: 1.25rem;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: var(--strong);
+      }
+
+      .btn:focus-visible {
+        outline: 3px solid var(--border-2);
+        outline-offset: 2px;
+      }
+
+      .note {
+        font-family: var(--mono);
+        font-size: 0.6875rem;
+        color: var(--ink-3);
       }
 
       /* chrome */
       .chrome {
         position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 2.5rem;
+        right: 1rem;
+        bottom: 0.6rem;
         display: flex;
         align-items: center;
-        justify-content: center;
-        gap: var(--s2);
-        pointer-events: none;
-      }
-
-      .chrome-inner {
-        pointer-events: auto;
-        display: flex;
-        align-items: center;
-        gap: var(--s2);
-        background: oklch(30% 0.03 var(--hue));
-        border: 1px solid oklch(55% 0.03 var(--hue));
+        gap: 0.35rem;
+        background: oklch(28% 0.03 var(--hue) / 0.94);
+        border: 1px solid oklch(52% 0.03 var(--hue));
         border-radius: 999px;
-        padding: 0.3rem 0.5rem;
-        font-family: var(--font-mono);
-        font-size: 0.8125rem;
+        padding: 0.25rem 0.4rem;
+        font-family: var(--mono);
+        font-size: 0.75rem;
         color: oklch(94% 0.01 var(--hue));
       }
 
@@ -785,27 +698,19 @@
         background: transparent;
         border: 0;
         border-radius: 999px;
-        min-width: 2.25rem;
-        min-height: 2.25rem;
-        padding: 0 0.6rem;
+        min-width: 2rem;
+        min-height: 2rem;
+        padding: 0 0.5rem;
         cursor: pointer;
       }
 
       .chrome button:hover {
-        background: oklch(44% 0.05 var(--hue));
+        background: oklch(46% 0.05 var(--hue));
       }
 
       .chrome button:focus-visible {
-        outline: 0.1875rem solid oklch(80% 0.1 var(--hue));
-        outline-offset: 0.125rem;
-      }
-
-      .chrome .dot {
-        opacity: 0.5;
-      }
-
-      .kbd {
-        font-family: var(--font-mono);
+        outline: 3px solid oklch(80% 0.1 var(--hue));
+        outline-offset: 2px;
       }
 
       @media print {
@@ -836,24 +741,25 @@
   <body>
     <div class="stage">
       <div class="deck" id="deck">
-        <!-- 01 — Kapak -->
+        <!-- 01 -->
         <section class="slide cover" data-active="true" aria-label="Kapak">
-          <div class="cover-left">
+          <div class="cover-bg"></div>
+          <div class="cover-inner">
             <div class="cover-brand">
               <img src="brand/duin-wordmark.png" alt="Duin" />
             </div>
-            <div class="cover-spacer"></div>
-            <p class="cover-kicker">Agentic Ankara · 2026 · Yatırım sunumu</p>
-            <h1 class="cover-title">Duin</h1>
-            <p class="cover-sub">OKX Dual Investment Risk Gate</p>
-            <p class="cover-slogan">Getirinin ötesini gör.</p>
-            <p class="cover-oneliner">
-              Duin, OKX TR'nin yüksek APR'li Dual Investment teklifini aynı
-              strike ve vadedeki işlem yapılabilir option piyasasıyla ve
-              kullanıcının risk politikasıyla karşılaştırır; işlemden önce
-              deterministik bir <strong>risk kapısı</strong> kararı üretir.
-            </p>
-            <div class="cover-spacer"></div>
+            <div class="cover-main">
+              <p class="cover-kicker">Agentic Ankara · 2026 · Yatırım sunumu</p>
+              <h1 class="cover-title">Duin</h1>
+              <p class="cover-sub">OKX Dual Investment Risk Gate</p>
+              <p class="cover-slogan">Getirinin ötesini gör.</p>
+              <p class="cover-oneliner">
+                OKX TR'nin yüksek APR'li Dual Investment teklifini, aynı strike
+                ve vadedeki işlem yapılabilir option piyasasıyla karşılaştıran
+                deterministik risk kapısı. Kararı kod verir, gerekçesini
+                gösterir; onay olmadan para hareket etmez.
+              </p>
+            </div>
             <div class="cover-meta">
               <div class="meta-item">
                 <span class="meta-label">Canlı ürün</span>
@@ -866,423 +772,407 @@
                 <span class="meta-value">Gerçek OKX TR · sunucu tarafı</span>
               </div>
               <div class="meta-item">
-                <span class="meta-label">Ağ</span>
+                <span class="meta-label">Ödeme</span>
                 <span class="meta-value">Avalanche Fuji · x402</span>
               </div>
             </div>
           </div>
-          <div class="cover-right">
-            <img src="duin-robot-poster.webp" alt="" />
-          </div>
         </section>
 
-        <!-- 02 — Problem -->
+        <!-- 02 -->
         <section class="slide" aria-label="Problem">
           <div class="rail">
-            <div class="brand">
+            <div class="rail-l">
               <img src="brand/duin-symbol.png" alt="" />
               <span class="rail-sep"></span>
-              <span class="rail-context">Problem</span>
+              <span class="rail-label">Problem</span>
             </div>
             <span class="slide-no">02 / 08</span>
           </div>
 
           <div class="head">
-            <p class="eyebrow">01 · Problem</p>
+            <p class="eyebrow">01 — Problem</p>
             <h2 class="title">Yüksek APR tuzağı</h2>
             <p class="lede">
-              Dual Investment cazip bir prim vaat eder; ama alınan prim,
-              gözlenen option piyasası ve fırsat maliyeti karşısında yeterli mi?
-              Teklif ekranı bunu söylemez.
+              Dual Investment yüksek prim vaat eder; ama primin gerçekten
+              yeterli olup olmadığını söylemez. Yatırımcı riski ancak dönüşüm
+              gerçekleşince görür.
             </p>
           </div>
 
-          <div class="body" style="grid-template-columns: 1fr 1fr">
-            <div class="card">
-              <span class="card-label">Tuzak</span>
-              <h3 class="card-title">Prim, riski görünmez kılar</h3>
-              <ul class="bullets">
-                <li>
-                  <span class="b">→</span
-                  ><span
-                    ><strong>Tek bilgi: başlık APR.</strong> Dönüşüm olursa elde
-                    kalan varlığın maliyeti ekranda yok.</span
-                  >
-                </li>
-                <li>
-                  <span class="b">→</span
-                  ><span
-                    ><strong>Karşılaştırma yok.</strong> Aynı strike ve vadeye
-                    yakın işlem yapılabilir option fiyatı gösterilmiyor.</span
-                  >
-                </li>
-                <li>
-                  <span class="b">→</span
-                  ><span
-                    ><strong>Geri çekilme riski gizli.</strong> “Yüksek getiri”
-                    görünen ürünlerde asıl risk likidite ve geri ödemedir.</span
-                  >
-                </li>
-              </ul>
+          <div class="content cols" style="grid-template-columns: 1fr 0.92fr">
+            <div class="ledger">
+              <div class="lhead"><span>Neden tuzak</span><span>3 kalem</span></div>
+              <div class="lrow">
+                <span class="k"
+                  ><b>Tek bilgi: başlık APR.</b> Dönüşüm olursa elde kalan
+                  varlığın maliyeti ekranda yok.</span
+                >
+              </div>
+              <div class="lrow">
+                <span class="k"
+                  ><b>Karşılaştırma yok.</b> Aynı strike ve vadeye yakın, işlem
+                  yapılabilir option fiyatı gösterilmiyor.</span
+                >
+              </div>
+              <div class="lrow">
+                <span class="k"
+                  ><b>Geri çekilme riski gizli.</b> “Yüksek getiri” görünen
+                  ürünlerde asıl risk likidite ve geri ödemedir.</span
+                >
+              </div>
             </div>
 
-            <div class="card">
-              <span class="card-label">Kanıt · Türkiye, Eylül 2026</span>
-              <h3 class="card-title">Para piyasası fonu temerrüdü</h3>
-              <p style="font-size: 0.875rem; line-height: 1.5; color: var(--ink-2)">
-                Tera Portföy'ün TP2 ve THF fonlarında katılma payı iade
-                ödemelerinde temerrüt oluştu; ödeme süresi 10 iş gününe
-                çıkarıldı.
+            <div class="plane">
+              <span class="plane-label">Saha kanıtı · Türkiye · Eylül 2026</span>
+              <h3 class="plane-title">
+                Tera Portföy Para Piyasası Fonu (TP2) temerrüdü
+              </h3>
+              <p>
+                16 Eylül 2026'da TP2 ve THF fonlarında katılma payı iade
+                ödemelerinde <b>temerrüt</b> oluştu; ödeme süresi
+                <b>10 iş gününe</b> çıkarıldı, birim pay değerlemesi aylığa
+                çekildi.
               </p>
-              <div class="stat-row">
-                <div class="stat">
-                  <span class="stat-value">102.000+</span>
-                  <span class="stat-label">etkilenen yatırımcı</span>
+              <div class="plane-stats">
+                <div class="pstat">
+                  <b>102.000+</b><span>etkilenen yatırımcı</span>
                 </div>
-                <div class="stat">
-                  <span class="stat-value">243,6 mlr ₺</span>
-                  <span class="stat-label">ilgili fon büyüklüğü</span>
+                <div class="pstat">
+                  <b>243,6 mlr ₺</b><span>ilgili fon büyüklüğü</span>
                 </div>
               </div>
-              <p class="source">
+              <p class="plane-source">
                 Kaynak: Tera Portföy KAP bildirimi, 16.09.2026.
               </p>
             </div>
           </div>
         </section>
 
-        <!-- 03 — Çözüm -->
+        <!-- 03 -->
         <section class="slide" aria-label="Çözüm">
           <div class="rail">
-            <div class="brand">
+            <div class="rail-l">
               <img src="brand/duin-symbol.png" alt="" />
               <span class="rail-sep"></span>
-              <span class="rail-context">Çözüm</span>
+              <span class="rail-label">Çözüm</span>
             </div>
             <span class="slide-no">03 / 08</span>
           </div>
 
           <div class="head">
-            <p class="eyebrow">02 · Çözüm</p>
-            <h2 class="title">Deterministik risk kapısı</h2>
+            <p class="eyebrow">02 — Çözüm</p>
+            <h2 class="title">İşlemden önce kapanan risk kapısı</h2>
             <p class="lede">
-              DCD teklifini, aynı strike/vadedeki işlem yapılabilir option
+              DCD teklifini, aynı strike ve vadedeki işlem yapılabilir option
               bandıyla ve kullanıcı politikasıyla karşılaştırır. Kararı LLM
-              değil, doğrulanabilir kod verir.
+              değil; doğrulanabilir, deterministik kod verir.
             </p>
           </div>
 
-          <div class="decision-grid">
-            <div class="decision accept">
-              <span class="d-name">ACCEPT</span>
-              <span class="d-desc"
-                >Prim, gözlenen bandın üzerinde; politika sınırları içinde.</span
-              >
+          <div class="content" style="justify-content: center; gap: var(--s4)">
+            <div class="decision-plane">
+              <div class="dseg accept">
+                <span class="d-name">ACCEPT</span>
+                <span class="d-desc"
+                  >Prim, gözlenen bandın üzerinde ve politika sınırları
+                  içinde.</span
+                >
+              </div>
+              <div class="dseg ask">
+                <span class="d-name">ASK</span>
+                <span class="d-desc"
+                  >Sınırda; kullanıcı onayı olmadan işlem başlatılmaz.</span
+                >
+              </div>
+              <div class="dseg reject">
+                <span class="d-name">REJECT</span>
+                <span class="d-desc"
+                  >Prim bandın altında ya da veri/politika yetersiz. Fail
+                  closed.</span
+                >
+              </div>
             </div>
-            <div class="decision ask">
-              <span class="d-name">ASK</span>
-              <span class="d-desc"
-                >Sınırda; kullanıcı onayı olmadan işlem başlatılmaz.</span
-              >
-            </div>
-            <div class="decision reject">
-              <span class="d-name">REJECT</span>
-              <span class="d-desc"
-                >Prim bandın altında veya veri/politika yetersiz. Fail closed.</span
-              >
-            </div>
-          </div>
 
-          <div class="flow" style="margin-top: var(--s4)">
-            <span class="flow-node">DCD teklifi</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">exact-strike option proxy</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">risk politikası</span>
-            <span class="flow-arrow">→</span>
-            <span class="flow-node">karar + gerekçe</span>
+            <div class="flow">
+              <span class="fnode">DCD teklifi</span>
+              <span class="farrow">→</span>
+              <span class="fnode">exact-strike option proxy</span>
+              <span class="farrow">→</span>
+              <span class="fnode">risk politikası</span>
+              <span class="farrow">→</span>
+              <span class="fnode">karar + gerekçe</span>
+            </div>
           </div>
         </section>
 
-        <!-- 04 — Traction / finansal kanıt -->
+        <!-- 04 -->
         <section class="slide" aria-label="Çekiş">
           <div class="rail">
-            <div class="brand">
+            <div class="rail-l">
               <img src="brand/duin-symbol.png" alt="" />
               <span class="rail-sep"></span>
-              <span class="rail-context">Çekiş</span>
+              <span class="rail-label">Çekiş</span>
             </div>
             <span class="slide-no">04 / 08</span>
           </div>
 
           <div class="head">
-            <p class="eyebrow">03 · Çekiş &amp; kanıt</p>
+            <p class="eyebrow">03 — Çekiş</p>
             <h2 class="title">Bugün canlı çalışıyor</h2>
             <p class="lede">
-              Ürün varsayım değil; gerçek OKX TR verisiyle çalışan, ödemeyi
+              Varsayım değil; gerçek OKX TR verisiyle çalışan ve ödemeyi
               zincirde gerçekleştiren bir sistem.
             </p>
           </div>
 
-          <div class="body" style="grid-template-columns: 1fr 1fr 1fr">
-            <div class="card">
-              <span class="card-label">Canlı veri</span>
-              <span class="stat-value">OKX TR</span>
-              <p style="font-size: 0.8125rem; color: var(--ink-2); line-height: 1.45">
-                Salt okunur DCD teklifi + exact-strike option book, sunucu
-                tarafında, gerçek zamanlı.
-              </p>
+          <div class="content">
+            <div class="ledger">
+              <div class="lhead">
+                <span>Katman</span><span>Durum</span>
+              </div>
+              <div class="lrow">
+                <span class="k"
+                  ><b>Canlı veri.</b> Salt okunur DCD teklifi ve exact-strike
+                  option defteri, sunucu tarafında gerçek zamanlı.</span
+                ><span class="v acc">OKX TR</span>
+              </div>
+              <div class="lrow">
+                <span class="k"
+                  ><b>Karar çekirdeği.</b> Finansal hesap ve politika kodda
+                  sabit; LLM yalnız politikayı yapılandırır ve sonucu
+                  açıklar.</span
+                ><span class="v">Deterministik</span>
+              </div>
+              <div class="lrow">
+                <span class="k"
+                  ><b>Ajan ödemesi.</b> İkinci ajan aynı raporu gerçek testnet
+                  USDC ile alır; makbuz zincirde doğrulanır.</span
+                ><span class="v acc">x402 · Fuji</span>
+              </div>
+              <div class="lrow">
+                <span class="k"
+                  ><b>Kalite kapısı.</b> Tip kontrolü, birim testleri ve üretim
+                  derlemesi geçiyor.</span
+                ><span class="v acc">Yeşil</span>
+              </div>
             </div>
-            <div class="card">
-              <span class="card-label">Ajan ödemesi</span>
-              <span class="stat-value">x402 · Fuji</span>
-              <p style="font-size: 0.8125rem; color: var(--ink-2); line-height: 1.45">
-                İkinci ajan aynı raporu gerçek testnet USDC ödemesiyle alıyor;
-                makbuz zincirde doğrulanıyor.
-              </p>
-            </div>
-            <div class="card">
-              <span class="card-label">Mühendislik</span>
-              <span class="stat-value">Deterministik çekirdek</span>
-              <p style="font-size: 0.8125rem; color: var(--ink-2); line-height: 1.45">
-                Finansal hesap ve karar kodda sabit; LLM yalnız politikayı
-                yapılandırır ve açıklar.
-              </p>
-            </div>
+            <p class="note">
+              Konum: OKX Dual Investment Risk Gate · Avalanche Fuji TESTNET.
+              Saklama yok, withdrawal izni yok.
+            </p>
           </div>
-
-          <p class="source">
-            Ürün konumu: OKX Dual Investment Risk Gate · Avalanche Fuji TESTNET.
-          </p>
         </section>
 
-        <!-- 05 — Pazar -->
+        <!-- 05 -->
         <section class="slide" aria-label="Pazar">
           <div class="rail">
-            <div class="brand">
+            <div class="rail-l">
               <img src="brand/duin-symbol.png" alt="" />
               <span class="rail-sep"></span>
-              <span class="rail-context">Pazar</span>
+              <span class="rail-label">Pazar</span>
             </div>
             <span class="slide-no">05 / 08</span>
           </div>
 
           <div class="head">
-            <p class="eyebrow">04 · Pazar</p>
+            <p class="eyebrow">04 — Pazar</p>
             <h2 class="title">Önce Türkiye, sonra tüm OKX</h2>
           </div>
 
-          <div class="body" style="grid-template-columns: 1.35fr 1fr">
+          <div class="content cols" style="grid-template-columns: 1.3fr 1fr">
             <div class="market">
-              <div class="bar-row">
+              <div class="bar">
                 <span class="bar-tag">TAM</span>
                 <div class="bar-track">
                   <div class="bar-fill" style="width: 100%"></div>
                 </div>
-                <div class="bar-value">
+                <div class="bar-v">
                   <b>~20M</b><span>kripto işlemi yapan yetişkin</span>
                 </div>
               </div>
-              <div class="bar-row sam">
+              <div class="bar sam">
                 <span class="bar-tag">SAM</span>
                 <div class="bar-track">
-                  <div class="bar-fill" style="width: 42%"></div>
+                  <div class="bar-fill" style="width: 44%"></div>
                 </div>
-                <div class="bar-value">
+                <div class="bar-v">
                   <b>~1M</b><span>stablecoin + getiri ürünü kullanıcısı</span>
                 </div>
               </div>
-              <div class="bar-row som">
+              <div class="bar som">
                 <span class="bar-tag">SOM</span>
                 <div class="bar-track">
-                  <div class="bar-fill" style="width: 12%"></div>
+                  <div class="bar-fill" style="width: 14%"></div>
                 </div>
-                <div class="bar-value">
-                  <b>~25K</b><span>ilk 18 ay hedefi</span>
-                </div>
+                <div class="bar-v"><b>~25K</b><span>ilk 18 ay hedefi</span></div>
               </div>
             </div>
 
-            <div class="card">
-              <span class="card-label">Model varsayımları</span>
-              <ul class="bullets">
-                <li>
-                  <span class="b" style="color: var(--action)">1</span
-                  ><span
-                    >Yetişkinlerin ~%31'i kripto işlemi yapıyor (Paribu
-                    2025).</span
-                  >
-                </li>
-                <li>
-                  <span class="b" style="color: var(--action)">2</span
-                  ><span
-                    >İşlem yapanların ~%5'i stablecoin'de getiri arıyor
-                    (varsayım).</span
-                  >
-                </li>
-                <li>
-                  <span class="b" style="color: var(--action)">3</span
-                  ><span
-                    >18 ayda SAM'ın ~%2,5'i bizde (varsayım).</span
-                  >
-                </li>
-              </ul>
-              <p class="source">Kaynak: Paribu 2025 kripto algı araştırması.</p>
+            <div class="ledger">
+              <div class="lhead"><span>Model varsayımı</span><span>Not</span></div>
+              <div class="lrow">
+                <span class="k">Yetişkinlerin kripto işlem oranı</span
+                ><span class="v">~%31</span>
+              </div>
+              <div class="lrow">
+                <span class="k">Bunun stablecoin'de getiri arayan payı</span
+                ><span class="v">~%5</span>
+              </div>
+              <div class="lrow">
+                <span class="k">18 ayda SAM'dan alınan pay</span
+                ><span class="v">~%2,5</span>
+              </div>
             </div>
           </div>
+          <p class="note" style="margin-top: var(--s3)">
+            Kaynak: Paribu 2025 kripto algı araştırması. SAM ve SOM varsayımdır;
+            gelir modeliyle güncellenir.
+          </p>
         </section>
 
-        <!-- 06 — İş modeli -->
+        <!-- 06 -->
         <section class="slide" aria-label="İş modeli">
           <div class="rail">
-            <div class="brand">
+            <div class="rail-l">
               <img src="brand/duin-symbol.png" alt="" />
               <span class="rail-sep"></span>
-              <span class="rail-context">İş modeli</span>
+              <span class="rail-label">İş modeli</span>
             </div>
             <span class="slide-no">06 / 08</span>
           </div>
 
           <div class="head">
-            <p class="eyebrow">05 · İş modeli</p>
+            <p class="eyebrow">05 — İş modeli</p>
             <h2 class="title">Karar başına ücret, sıfır saklama</h2>
+            <p class="lede">
+              Gelir, karar ve analiz katmanında; kullanıcı varlığı asla
+              ürünün elinde durmaz.
+            </p>
           </div>
 
-          <div class="body" style="grid-template-columns: 1fr 1.1fr">
-            <div class="card">
-              <span class="card-label">Gelir kanalları</span>
-              <div class="stream">
-                <div class="stream-item">
-                  <span class="n">01</span>
-                  <span
-                    ><b>Ajan-ajan (x402).</b> Her makine-okunur rapor çağrısı
-                    için mikro ödeme.</span
-                  >
-                </div>
-                <div class="stream-item">
-                  <span class="n">02</span>
-                  <span
-                    ><b>Kullanıcı premium.</b> Derin rapor ve portföy politikası
-                    aboneliği.</span
-                  >
-                </div>
-                <div class="stream-item">
-                  <span class="n">03</span>
-                  <span
-                    ><b>Pazaryeri.</b> OKX.AI üzerinde servis olarak
-                    listelenme.</span
-                  >
-                </div>
+          <div class="content cols" style="grid-template-columns: 1fr 1fr">
+            <div class="ledger">
+              <div class="lhead">
+                <span>Gelir kanalı</span><span>Açıklama</span>
+              </div>
+              <div class="lrow">
+                <span class="k"><b>Ajan-ajan (x402).</b></span
+                ><span class="v">çağrı başına</span>
+              </div>
+              <div class="lrow">
+                <span class="k"><b>Kullanıcı premium.</b></span
+                ><span class="v">abonelik</span>
+              </div>
+              <div class="lrow">
+                <span class="k"><b>Pazaryeri.</b> OKX.AI servisi.</span
+                ><span class="v">listelenme</span>
               </div>
             </div>
 
-            <div class="col">
-              <div class="table">
-                <div class="trow">
-                  <span>Birim ekonomi (model)</span
-                  ><span class="num">Değer</span><span class="num">Not</span>
-                </div>
-                <div class="trow">
-                  <span>Fiyat / rapor çağrısı</span
-                  ><span class="num">$0,10</span
-                  ><span class="num" style="color: var(--ink-3)">varsayım</span>
-                </div>
-                <div class="trow">
-                  <span>Değişken maliyet / çağrı</span
-                  ><span class="num">~$0,01</span
-                  ><span class="num" style="color: var(--ink-3)">varsayım</span>
-                </div>
-                <div class="trow">
-                  <span>Brüt marj</span
-                  ><span class="num" style="color: var(--accept)">~%90</span
-                  ><span class="num" style="color: var(--ink-3)">yazılım</span>
-                </div>
+            <div class="ledger">
+              <div class="lhead">
+                <span>Birim ekonomi (model)</span><span>Değer</span>
               </div>
-              <p class="source">
-                Saklama yok, withdrawal izni yok: gelir karar/analiz katmanında.
-              </p>
+              <div class="lrow">
+                <span class="k">Fiyat / rapor çağrısı</span
+                ><span class="v">$0,10</span>
+              </div>
+              <div class="lrow">
+                <span class="k">Değişken maliyet / çağrı</span
+                ><span class="v">~$0,01</span>
+              </div>
+              <div class="lrow">
+                <span class="k">Brüt marj</span
+                ><span class="v acc">~%90</span>
+              </div>
             </div>
           </div>
+          <p class="note" style="margin-top: var(--s3)">
+            Rakamlar yazılım marjı varsayımıdır; ilk pilotla doğrulanacaktır.
+          </p>
         </section>
 
-        <!-- 07 — Ekip & Ask -->
-        <section class="slide" aria-label="Ekip ve yatırım">
+        <!-- 07 -->
+        <section class="slide" aria-label="Ekip">
           <div class="rail">
-            <div class="brand">
+            <div class="rail-l">
               <img src="brand/duin-symbol.png" alt="" />
               <span class="rail-sep"></span>
-              <span class="rail-context">Ekip &amp; yatırım</span>
+              <span class="rail-label">Ekip</span>
             </div>
             <span class="slide-no">07 / 08</span>
           </div>
 
           <div class="head">
-            <p class="eyebrow">06 · Ekip &amp; yatırım</p>
-            <h2 class="title">Neden biz, neden şimdi</h2>
+            <p class="eyebrow">06 — Ekip</p>
+            <h2 class="title">Neden biz</h2>
+            <p class="lede">
+              Canlı OKX TR ve Avalanche x402 entegrasyonunu uçtan uca çalıştıran
+              küçük, hızlı bir ekip.
+            </p>
           </div>
 
-          <div class="team-grid">
-            <div class="person">
-              <div class="person-top">
+          <div class="content">
+            <div class="people">
+              <div class="person">
                 <span class="avatar">B</span>
                 <div>
                   <div class="person-name">Batuhan</div>
                   <div class="person-role">Kurucu · Ürün &amp; ajan akışı</div>
+                  <span class="person-handle">github.com/batuhan4</span>
                 </div>
               </div>
-              <span class="person-handle">github.com/batuhan4</span>
-            </div>
-            <div class="person">
-              <div class="person-top">
+              <div class="person">
                 <span class="avatar">Ş</span>
                 <div>
                   <div class="person-name">Şahveli</div>
                   <div class="person-role">
                     Kurucu · Mühendislik &amp; OKX entegrasyonu
                   </div>
+                  <span class="person-handle">github.com/Sahveli01</span>
                 </div>
               </div>
-              <span class="person-handle">github.com/Sahveli01</span>
             </div>
-          </div>
 
-          <div class="ask" style="margin-top: var(--s4)">
-            <div class="ask-l">
-              <span class="ask-label">Ask</span>
-              <span class="ask-value">YC · tohum öncesi</span>
-            </div>
-            <div class="ask-r">
-              <div class="ask-metric">
-                <b>18 ay</b><span>OKX TR liderliği</span>
+            <div class="ledger">
+              <div class="lhead"><span>Neden şimdi</span><span>Durum</span></div>
+              <div class="lrow">
+                <span class="k"
+                  >OKX TR ve Avalanche x402 uçtan uca çalışıyor.</span
+                ><span class="v acc">Canlı</span>
               </div>
-              <div class="ask-metric">
-                <b>25K</b><span>aktif kullanıcı hedefi</span>
+              <div class="lrow">
+                <span class="k"
+                  >Deterministik finansal çekirdek ve fail-closed güvenlik
+                  duruşu.</span
+                ><span class="v">Hazır</span>
               </div>
-              <div class="ask-metric">
-                <b>%90</b><span>hedef brüt marj</span>
+              <div class="lrow">
+                <span class="k"
+                  >Düzenlenen kripto piyasasında “önce kanıt” yaklaşımı.</span
+                ><span class="v">Zamanlama</span>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- 08 — Canlı demo -->
+        <!-- 08 -->
         <section class="slide" aria-label="Canlı demo">
           <div class="rail">
-            <div class="brand">
+            <div class="rail-l">
               <img src="brand/duin-symbol.png" alt="" />
               <span class="rail-sep"></span>
-              <span class="rail-context">Canlı demo</span>
+              <span class="rail-label">Canlı demo</span>
             </div>
             <span class="slide-no">08 / 08</span>
           </div>
 
-          <div class="video-head">
-            <div>
-              <p class="eyebrow">07 · Canlı demo</p>
-              <h2 class="title" style="font-size: 2rem">
-                Teklif → proxy → karar → x402 → rapor
-              </h2>
-            </div>
+          <div class="head" style="margin-bottom: var(--s3)">
+            <p class="eyebrow">07 — Canlı demo</p>
+            <h2 class="title" style="font-size: 2rem">
+              Teklif → proxy → karar → x402 → rapor
+            </h2>
           </div>
 
           <div class="video-frame" id="videoFrame">
@@ -1298,16 +1188,10 @@
           </div>
 
           <div class="video-foot">
-            <span class="source" style="margin: 0"
+            <span class="note"
               >Ekran kaydı · ses kaldırıldı · 00:50 · gerçek OKX TR verisi</span
             >
-            <button
-              type="button"
-              class="flow-node"
-              id="fullscreen"
-              style="cursor: pointer; min-height: 2.75rem; padding-inline: 1rem"
-              aria-label="Videoyu tam ekran oynat"
-            >
+            <button type="button" class="btn" id="fullscreen">
               Tam ekran
             </button>
           </div>
@@ -1316,13 +1200,9 @@
     </div>
 
     <div class="chrome" role="group" aria-label="Slayt gezinme">
-      <div class="chrome-inner">
-        <button type="button" id="prev" aria-label="Önceki slayt">‹</button>
-        <span id="counter">01 / 08</span>
-        <button type="button" id="next" aria-label="Sonraki slayt">›</button>
-        <span class="dot">·</span>
-        <span class="kbd">← → ile gezin</span>
-      </div>
+      <button type="button" id="prev" aria-label="Önceki slayt">‹</button>
+      <span id="counter" class="num">01 / 08</span>
+      <button type="button" id="next" aria-label="Sonraki slayt">›</button>
     </div>
 
     <script>
@@ -1340,10 +1220,6 @@
           return String(n).padStart(2, "0");
         }
 
-        function isVideoSlide(index) {
-          return slides[index].contains(video);
-        }
-
         function render() {
           slides.forEach(function (slide, index) {
             slide.setAttribute(
@@ -1353,7 +1229,7 @@
           });
           counter.textContent = pad(current + 1) + " / " + pad(slides.length);
 
-          if (isVideoSlide(current)) {
+          if (slides[current].contains(video)) {
             video.currentTime = 0;
             var p = video.play();
             if (p && p.catch) p.catch(function () {});
@@ -1387,7 +1263,6 @@
         document.getElementById("next").addEventListener("click", function () {
           go(1);
         });
-
         document
           .getElementById("fullscreen")
           .addEventListener("click", function () {
@@ -1397,13 +1272,13 @@
 
         window.addEventListener("keydown", function (event) {
           var k = event.key;
-          if (k === "ArrowRight" || k === "PageDown" || k === "Enter") {
+          if (k === "ArrowRight" || k === "PageDown") {
             event.preventDefault();
             go(1);
           } else if (k === "ArrowLeft" || k === "PageUp") {
             event.preventDefault();
             go(-1);
-          } else if (k === " " || k === "Spacebar") {
+          } else if (k === " ") {
             event.preventDefault();
             go(event.shiftKey ? -1 : 1);
           } else if (k === "Home") {
